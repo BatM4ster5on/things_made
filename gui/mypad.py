@@ -101,7 +101,7 @@ class Notepad:
 
     #HelpMenu
     def __winAbout(self):
-        showinfo("NotePad", "By AGM aka TonyDanza")
+        showinfo("NotePad", "By AGM aka TonyDanzza")
 
 
     # FileMenu
