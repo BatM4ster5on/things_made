@@ -1,6 +1,8 @@
 import tkinter as tk
+from urllib import response
+import requests
 import os
-import sys
+import json
 from tkinter import *
 from tkinter.messagebox import *
 from tkinter.filedialog import *
@@ -12,13 +14,14 @@ class tuneFinder:
 
     __winWidth = 300
     __winHeight = 300
+    __labelVar = StringVar()
     __winTitle = ("TuneFinder | AgM ")
     __winMenuBar = Menu(__root)
 
+    __findLabel = Label(__root, text="Search for a song: ")
+    __songName = Entry(__root, bg="#14e8f7", )
 
-    __findSong = Entry(__root, bg="#52f2ea", )
-
-
+    __searchBtn = Button(__root, text="Search")
 
     def __init__(self, **kwargs):
         
@@ -46,9 +49,18 @@ class tuneFinder:
         self.__root.title(f"{self.__winTitle}")
 
 
-        self.__findSong.grid(sticky="ew")
-
-
+        
+        self.__findLabel.grid()
+        self.__songName.grid()
+        self.__searchBtn.grid()
+        self.__searchBtn.config(command=self.__searchSong)
+    
+    def __searchSong(self):
+        songname = self.__songName.get()
+        response = requests.get("https://itunes.apple.com/search?entity=song&limit=5&term=" + str(songname))
+        res = response.json()
+        for result in res["results"]:
+            print(result["trackName"])
 
     def run(self):
         self.__root.mainloop()
