@@ -7,22 +7,26 @@ from tkinter.filedialog import *
 
 
 class tuneFinder:
-
+    #clean up Attributes
     __root = Tk()
     __winWidth, __winHeight = 300, 300
-
-    # __labelVar = StringVar()
     __winTitle = ("TuneFinder | AgM ")
+    
     #Not using menu bar yet
     # __winMenuBar = Menu(__root)
-    
-    __songFrame = LabelFrame(__root, text="Search For a Song bellow!", bd=4, bg="#23543c", padx=50, pady=50)
+    OPTIONS = [
+        ("Song", "Song"),
+        ("Artist", "Artist"),
+        ("Album", "Album"),
+    ]
+
+    __songFrame = LabelFrame(__root, text="Search For a (OPTION) bellow!", bd=4, bg="#23543c", padx=50, pady=50)
     # __findLabel = Label(__songFrame, text="Search for a song: ", bd=1)
     __findSong = Entry(__songFrame, bg="#14e8f7")
 
     __searchBtn = Button(__songFrame, text="Search")
 
-    __outputFrame = LabelFrame(__root, text="Output Frame")
+    __outputFrame = LabelFrame(__root, text="Output Frame(OPTION)")
     __outputSongs = Label(__outputFrame, text="")
 
     __topSongs = Label(__songFrame, text="Top 5 Songs", bg="#207349")
@@ -71,14 +75,14 @@ class tuneFinder:
         response = requests.get(f"https://itunes.apple.com/search?entity=song&limit=5&term={str(findsong)}")
         res = response.json()
        
-    
         songs = [item["trackName"] for item in res["results"]]
-       
 
-
+        #Need to move output to right LabelFrame
         for i, song in enumerate(songs, 1):
-            song_output = Label(self.__songFrame, text=f"{i}: {song}")
-            song_output.grid()
+            self.__outputSongs = Label(self.__outputFrame, text=f"{i}: {song}")
+            # song_output = Label(self.__songFrame, text=f"{i}: {song}")
+            # song_output.grid()
+            self.__outputSongs.pack()
             
 
 
