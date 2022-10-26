@@ -1,4 +1,3 @@
-import tkinter as tk
 import requests
 import os
 import json
@@ -10,18 +9,23 @@ from tkinter.filedialog import *
 class tuneFinder:
 
     __root = Tk()
+    __winWidth, __winHeight = 300, 300
 
-    __winWidth = 300
-    __winHeight = 300
-    __labelVar = StringVar()
+    # __labelVar = StringVar()
     __winTitle = ("TuneFinder | AgM ")
-    __winMenuBar = Menu(__root)
+    #Not using menu bar yet
+    # __winMenuBar = Menu(__root)
+    
+    __songFrame = LabelFrame(__root, text="Search For a Song bellow!", bd=4, bg="#23543c", padx=50, pady=50)
+    # __findLabel = Label(__songFrame, text="Search for a song: ", bd=1)
+    __findSong = Entry(__songFrame, bg="#14e8f7")
 
-    __findLabel = Label(__root, text="Search for a song: ", bd=1)
-    __findSong = Entry(__root, bg="#14e8f7")
+    __searchBtn = Button(__songFrame, text="Search")
 
-    __searchBtn = Button(__root, text="Search")
-    __topSongs = Label(text="Top 5 Songs", bg="RED")
+    __outputFrame = LabelFrame(__root, text="Output Frame")
+    __outputSongs = Label(__outputFrame, text="")
+
+    __topSongs = Label(__songFrame, text="Top 5 Songs", bg="#207349")
 
     def __init__(self, **kwargs):
         
@@ -46,17 +50,21 @@ class tuneFinder:
 
         self.__root.geometry('%dx%d+%d+%d' % (self.__winWidth, self.__winHeight, left, top))
 
+
         #Adds Title attribute defined above
         self.__root.title(f"{self.__winTitle}")
 
 
-        
-        self.__findLabel.grid(row=0, column=0, sticky=E+W)
-        self.__findSong.grid()
-        self.__searchBtn.grid()
-        self.__searchBtn.config(command=self.__findSong)
+        #LabelFrames
+        self.__songFrame.grid(row=0, column=0, sticky=E+W, ipadx=50, ipady=50)
+        self.__outputFrame.grid(row=0, column=1, columnspan=2, sticky=N+S, ipadx=170, ipady=50)
 
-        self.__topSongs.grid(row=0, column=1, rowspan=3, sticky=N+S)
+        # self.__findLabel.grid(row=0, column=0, sticky=E+W)
+        self.__findSong.grid(row=0, column=0, columnspan=3, sticky=E+W)
+        self.__searchBtn.grid(row=1, column=0, sticky=E+W)
+        self.__searchBtn.config(command=self.__searchSong)
+
+        self.__topSongs.grid(row=0, column=3, rowspan=3, sticky=N+S)
     
     def __searchSong(self):
         findsong = self.__findSong.get()
@@ -69,7 +77,8 @@ class tuneFinder:
 
 
         for i, song in enumerate(songs, 1):
-            print(f"Num {i}: {song}")
+            song_output = Label(self.__songFrame, text=f"{i}: {song}")
+            song_output.grid()
             
 
 
