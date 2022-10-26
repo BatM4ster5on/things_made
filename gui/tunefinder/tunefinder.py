@@ -71,9 +71,9 @@ class tuneFinder:
         response = requests.get(f"https://itunes.apple.com/search?entity=song&limit=5&term={str(findsong)}")
         res = response.json()
        
-        songs = []
-        for item in res["results"]:
-            songs.append(item["trackName"])
+    
+        songs = [item["trackName"] for item in res["results"]]
+       
 
 
         for i, song in enumerate(songs, 1):
